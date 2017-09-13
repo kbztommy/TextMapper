@@ -17,12 +17,15 @@ public class TextBeanUtil {
 			}
 
 			T Bean = clazz.newInstance();
-
-			Stream<Field> stream = Arrays.stream(clazz.getDeclaredFields());
-			stream.forEach(field -> {
+			Field[] fields = clazz.getDeclaredFields();		
+			
+			Stream<Field> stream = Arrays.stream(fields);		
+			
+			stream.filter(field -> null != field.getDeclaredAnnotation(TextMapper.class)).forEach(field -> {
 				field.setAccessible(true);
+				System.out.println(field.getName());
 			});
-			stream.filter(field -> null == field.getAnnotation(TextMapper.class));
+			
 			
 		
 
