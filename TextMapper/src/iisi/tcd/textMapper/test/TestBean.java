@@ -1,15 +1,15 @@
-package iisi.tcd.kbz.test;
+package iisi.tcd.textMapper.test;
 
 import java.util.List;
 
-import iisi.tcd.kbz.annotation.TextBean;
-import iisi.tcd.kbz.annotation.TextMapper;
+import iisi.tcd.textMapper.annotation.TextBean;
+import iisi.tcd.textMapper.annotation.TextMapper;
 
 @TextBean
 public class TestBean {
 
 	@TextMapper(length = 3)
-	private int id;
+	private Integer id;
 
 	@TextMapper(length = 3)
 	private String name;
@@ -24,7 +24,7 @@ public class TestBean {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

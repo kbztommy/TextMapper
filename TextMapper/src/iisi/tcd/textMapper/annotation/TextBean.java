@@ -1,4 +1,4 @@
-package iisi.tcd.kbz.annotation;
+package iisi.tcd.textMapper.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

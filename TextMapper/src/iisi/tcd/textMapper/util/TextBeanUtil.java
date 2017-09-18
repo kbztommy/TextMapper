@@ -1,21 +1,25 @@
-package iisi.tcd.kbz.util;
+package iisi.tcd.textMapper.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+import java.util.Collection;
 import java.util.List;
 
-import iisi.tcd.kbz.annotation.TextBean;
-import iisi.tcd.kbz.annotation.TextMapper;
+import org.apache.commons.lang3.StringUtils;
+
+import iisi.tcd.textMapper.Align;
+import iisi.tcd.textMapper.annotation.TextBean;
+import iisi.tcd.textMapper.annotation.TextMapper;
 
 public class TextBeanUtil {
 	public static <T> T parseBean(String text, Class<T> clazz) {
 
 		try {
 			if (null == clazz.getDeclaredAnnotation(TextBean.class)) {
-				throw new RuntimeException();
+				throw new RuntimeException("11");
 			}
 			T bean = clazz.newInstance();
 			Field[] fields = clazz.getDeclaredFields();
@@ -44,8 +48,9 @@ public class TextBeanUtil {
 						list.add(parseBean(text.substring(current, current + textMapper.length()), detailClazz));
 						current += textMapper.length();
 					}
+				} else {
+					throw new RuntimeException("22");
 				}
-
 			}
 			return bean;
 		} catch (InstantiationException e) {
@@ -66,7 +71,68 @@ public class TextBeanUtil {
 	}
 
 	public static String parseString(Object bean) {
-		return null;
+		Class clazz = bean.getClass();
+		if (null == clazz.getDeclaredAnnotation(TextBean.class)) {
+			throw new RuntimeException("11");
+		}
+		Field[] fields = clazz.getDeclaredFields();
+		StringBuilder sb = new StringBuilder();
+		for (Field f : fields) {
+			try {
+				f.setAccessible(true);
+				TextMapper annotation = f.getDeclaredAnnotation(TextMapper.class);
+				if (annotation == null) {
+					continue;
+				}
+				sb.append(getFieldText(f, bean));
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(f.getName() + "解析錯誤");
+			}
+		}
+		return sb.toString();
+	}
+
+	private static String getFieldText(Field f, Object bean) throws Exception {
+		Type type = f.getGenericType();
+		TextMapper annotation = f.getDeclaredAnnotation(TextMapper.class);
+
+		if (type.equals(String.class) || type.equals(Integer.class) || type.equals(int.class)) {
+			return format(f, bean);
+		} else if (type instanceof ParameterizedType) {
+			StringBuilder sb = new StringBuilder();
+			int repeatNumber = getRepeatNumber(f, bean);
+			Collection details = (Collection) f.get(bean);
+			if (details == null) {
+				details = new ArrayList();
+			}
+			details.forEach(detail -> sb.append(parseString(detail)));
+
+			int emptyCount = repeatNumber - details.size();
+			if (emptyCount > 0) {
+				Class detailClazz = (Class) Class
+						.forName(((ParameterizedType) type).getActualTypeArguments()[0].getTypeName());
+
+				Object empty = detailClazz.newInstance();
+				for (int i = 0; i < emptyCount; i++) {
+					sb.append(parseString(empty));
+				}
+			}
+			return sb.toString();
+		}
+		throw new RuntimeException(f.getName() + "解析錯誤");
+	}
+
+	private static String format(Field f, Object o) throws Exception {
+		String reuslt = null;
+		String value = f.get(o) == null ? "" : String.valueOf(f.get(o));
+		TextMapper annotation = f.getDeclaredAnnotation(TextMapper.class);
+		if (annotation.align() == Align.LEFT) {
+			reuslt = StringUtils.leftPad(value, annotation.length(), annotation.paddingWord());
+		} else {
+			reuslt = StringUtils.rightPad(value, annotation.length(), annotation.paddingWord());
+		}
+		return reuslt;
 	}
 
 	private static int getRepeatNumber(Field field, Object bean) throws ClassNotFoundException, NoSuchFieldException,

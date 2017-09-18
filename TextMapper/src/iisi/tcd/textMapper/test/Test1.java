@@ -1,6 +1,6 @@
-package iisi.tcd.kbz.test;
+package iisi.tcd.textMapper.test;
 
-import iisi.tcd.kbz.util.TextBeanUtil;
+import iisi.tcd.textMapper.util.TextBeanUtil;
 
 public class Test1 {
 	public static void main(String[] args) {
@@ -8,8 +8,8 @@ public class Test1 {
 		System.out.println(bean.getId());
 		System.out.println(bean.getName());
 		System.out.println(bean.getCount());
-		for (TestBeanDetail detail : bean.getDetails()) {
-			System.out.println(detail.getNote());
-		}
+		 for (TestBeanDetail detail : bean.getDetails()) {
+		 System.out.println(detail.getNote());
+		 }
 	}
 }

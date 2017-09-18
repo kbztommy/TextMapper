@@ -1,4 +1,4 @@
-package iisi.tcd.kbz;
+package iisi.tcd.textMapper;
 
 public enum Align {
 	RIGHT,LEFT;

@@ -1,7 +1,7 @@
-package iisi.tcd.kbz.test;
+package iisi.tcd.textMapper.test;
 
-import iisi.tcd.kbz.annotation.TextBean;
-import iisi.tcd.kbz.annotation.TextMapper;
+import iisi.tcd.textMapper.annotation.TextBean;
+import iisi.tcd.textMapper.annotation.TextMapper;
 
 @TextBean
 public class TestBeanDetail {
