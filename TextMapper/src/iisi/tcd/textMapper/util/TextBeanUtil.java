@@ -30,11 +30,12 @@ public class TextBeanUtil {
 			for (Field field : fields) {
 				field.setAccessible(true);
 				TextMapper textMapper = field.getDeclaredAnnotation(TextMapper.class);
-
-				Type type = field.getGenericType();
 				if (textMapper == null) {
 					continue;
-				} else if (type.equals(String.class)) {
+				}
+
+				Type type = field.getGenericType();
+				if (type.equals(String.class)) {
 					field.set(bean, text.substring(current, current + textMapper.length()));
 					current += textMapper.length();
 				} else if (type.equals(Integer.class) || type.equals(int.class)) {
