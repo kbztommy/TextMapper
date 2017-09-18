@@ -13,13 +13,15 @@ import org.apache.commons.lang3.StringUtils;
 import iisi.tcd.textMapper.Align;
 import iisi.tcd.textMapper.annotation.TextBean;
 import iisi.tcd.textMapper.annotation.TextMapper;
+import iisi.tcd.textMapper.exception.TextBeanError;
+import iisi.tcd.textMapper.exception.TextMapperException;
 
 public class TextBeanUtil {
 	public static <T> T parseBean(String text, Class<T> clazz) {
 
 		try {
 			if (null == clazz.getDeclaredAnnotation(TextBean.class)) {
-				throw new RuntimeException("11");
+				throw new TextMapperException(TextBeanError.NotTextBeanError);
 			}
 			T bean = clazz.newInstance();
 			Field[] fields = clazz.getDeclaredFields();
@@ -49,31 +51,21 @@ public class TextBeanUtil {
 						current += textMapper.length();
 					}
 				} else {
-					throw new RuntimeException("22");
+					throw new TextMapperException(TextBeanError.TypeNotSupport);
 				}
 			}
 			return bean;
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (TextMapperException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new TextMapperException(TextBeanError.ParseError);
 		}
-
-		return null;
 	}
 
 	public static String parseString(Object bean) {
 		Class clazz = bean.getClass();
 		if (null == clazz.getDeclaredAnnotation(TextBean.class)) {
-			throw new RuntimeException("11");
+			throw new TextMapperException(TextBeanError.NotTextBeanError);
 		}
 		Field[] fields = clazz.getDeclaredFields();
 		StringBuilder sb = new StringBuilder();
@@ -85,9 +77,10 @@ public class TextBeanUtil {
 					continue;
 				}
 				sb.append(getFieldText(f, bean));
+			} catch (TextMapperException e) {
+				throw e;
 			} catch (Exception e) {
-				e.printStackTrace();
-				throw new RuntimeException(f.getName() + "解析錯誤");
+				throw new TextMapperException(TextBeanError.ParseError);
 			}
 		}
 		return sb.toString();
@@ -120,7 +113,7 @@ public class TextBeanUtil {
 			}
 			return sb.toString();
 		}
-		throw new RuntimeException(f.getName() + "解析錯誤");
+		throw new TextMapperException(TextBeanError.TypeNotSupport);
 	}
 
 	private static String format(Field f, Object o) throws Exception {
