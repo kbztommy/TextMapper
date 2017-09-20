@@ -12,7 +12,7 @@ import iisi.tcd.textMapper.Align;
 public @interface TextMapper {
 	int length();
 
-	Align align() default Align.RIGHT;
+	Align align() default Align.LEFT;
 
 	String repeat() default "";
 

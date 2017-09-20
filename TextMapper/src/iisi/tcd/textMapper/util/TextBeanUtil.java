@@ -1,7 +1,6 @@
 package iisi.tcd.textMapper.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import iisi.tcd.textMapper.exception.TextBeanError;
 import iisi.tcd.textMapper.exception.TextMapperException;
 
 public class TextBeanUtil {
+
 	public static <T> T parseBean(String text, Class<T> clazz) {
 
 		try {
@@ -121,6 +121,9 @@ public class TextBeanUtil {
 		String reuslt = null;
 		String value = f.get(o) == null ? "" : String.valueOf(f.get(o));
 		TextMapper annotation = f.getDeclaredAnnotation(TextMapper.class);
+		if (value.length() > annotation.length()) {
+			throw new TextMapperException(TextBeanError.OverLength, f);
+		}
 		if (annotation.align() == Align.LEFT) {
 			reuslt = StringUtils.leftPad(value, annotation.length(), annotation.paddingWord());
 		} else {
