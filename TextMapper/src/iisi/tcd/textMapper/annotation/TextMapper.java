@@ -10,7 +10,7 @@ import iisi.tcd.textMapper.Align;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = ElementType.FIELD)
 public @interface TextMapper {
-	int length();
+	int length() default 0;
 
 	Align align() default Align.LEFT;
 

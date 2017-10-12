@@ -1,9 +1,9 @@
 package iisi.tcd.textMapper.test;
 
-import iisi.tcd.textMapper.annotation.TextBean;
+import iisi.tcd.textMapper.annotation.FixedLengthTextBean;
 import iisi.tcd.textMapper.annotation.TextMapper;
 
-@TextBean
+@FixedLengthTextBean
 public class Product {
 	@TextMapper(length = 10)
 	private String id;

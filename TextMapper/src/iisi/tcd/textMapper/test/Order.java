@@ -2,9 +2,9 @@ package iisi.tcd.textMapper.test;
 
 import java.util.List;
 
-import iisi.tcd.textMapper.annotation.TextBean;
+import iisi.tcd.textMapper.annotation.FixedLengthTextBean;
 import iisi.tcd.textMapper.annotation.TextMapper;
-@TextBean
+@FixedLengthTextBean
 public class Order {
 	@TextMapper(length = 10)
 	private String id;

@@ -2,7 +2,7 @@ package iisi.tcd.textMapper.test;
 
 import iisi.tcd.textMapper.util.TextBeanUtil;
 
-public class TestTextBean {
+public class FixedLengthTextBeanTest {
 	public static void main(String[] args) {
 		String text = "AS14503503493849385860384602AA54039460000300BB49305960001000001300";
 
