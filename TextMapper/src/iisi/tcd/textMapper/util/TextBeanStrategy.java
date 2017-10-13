@@ -1,6 +1,6 @@
 package iisi.tcd.textMapper.util;
 
-public interface TextBeanStrategy {
+interface TextBeanStrategy {
 	<T> T parseBean(String text, Class<T> clazz);
 
 	String parseString(Object bean);

@@ -9,7 +9,7 @@ import iisi.tcd.textMapper.annotation.TextMapper;
 import iisi.tcd.textMapper.exception.TextBeanError;
 import iisi.tcd.textMapper.exception.TextMapperException;
 
-public class DelimitedStrategy implements TextBeanStrategy {
+class DelimitedStrategy implements TextBeanStrategy {
 
 	@Override
 	public <T> T parseBean(String text, Class<T> clazz) {
