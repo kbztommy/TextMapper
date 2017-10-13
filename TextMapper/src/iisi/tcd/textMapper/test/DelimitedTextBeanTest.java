@@ -18,7 +18,7 @@ public class DelimitedTextBeanTest {
 		System.out.println("---------------------");
 
 		System.out.println(text);
-		System.err.println(text2);
+		System.out.println(text2);
 		System.out.println("is Equal :" + text.equals(text2));
 	}
 
