@@ -1,11 +1,10 @@
 package iisi.tcd.textMapper.util;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 import iisi.tcd.textMapper.annotation.DelimitedTextBean;
-import iisi.tcd.textMapper.annotation.FixedLengthTextBean;
+
 import iisi.tcd.textMapper.annotation.TextMapper;
 import iisi.tcd.textMapper.exception.TextBeanError;
 import iisi.tcd.textMapper.exception.TextMapperException;
